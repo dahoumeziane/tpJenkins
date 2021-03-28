@@ -1,0 +1,105 @@
+plugins {
+    id 'java'
+    id "com.github.spacialcircumstances.gradle-cucumber-reporting" version "0.1.22"
+    id 'jacoco'
+    id "org.sonarqube" version "3.1.1"
+    id "net.madeng.slack" version "0.0.23"
+}
+
+apply plugin: 'maven-publish'
+
+group 'com.example'
+version '1.0'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://mymavenrepo.com/repo/xfevb5SM8C5Gco0gJKBI/'
+        credentials {
+            username 'myMavenRepo'
+            password 'password'
+        }
+    }
+}
+
+dependencies {
+    testImplementation 'io.cucumber:cucumber-java:6.0.0'
+    testImplementation 'io.cucumber:cucumber-junit:6.0.0'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+test {
+    useJUnit()
+
+
+}
+
+cucumberReports {
+    outputDir = file('build/reports/cucumber')
+    buildId = '0'
+    reports = files('reports/example-report.json')
+}
+
+test.finalizedBy('sonarqube')
+
+
+sonarqube {
+    properties {
+        property "sonar.sourceEncoding", "UTF-8"
+        property "sonar.login", "admin"
+        property "sonar.password", "123456"
+    }
+}
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+}
+
+task generateMatrixAPI {
+}
+
+task copyReports (type:Copy) {
+    from 'build/reports'
+    into 'MatrixRelease/Matrix_v_1.0'
+}
+
+task copyDocs (type:Copy) {
+    from 'build/docs'
+    into 'MatrixRelease/Matrix_v_1.0'
+}
+
+task copyLibs (type:Copy) {
+    from 'build/libs'
+    into 'MatrixRelease/Matrix_v_1.0'
+}
+
+
+generateMatrixAPI.dependsOn(copyDocs,copyReports, copyLibs)
+
+publishing {
+    repositories {
+        maven {
+            url 'https://mymavenrepo.com/repo/xfevb5SM8C5Gco0gJKBI/'
+            credentials {
+                username 'myMavenRepo'
+                password 'password'
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+generateMatrixAPI.finalizedBy('publish')
+slack {
+    webhookUrl 'https://hooks.slack.com/services/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'
+    message {
+        text = "The project has been deployed"
+        channel = '#general'
+    }
+}
+publish.finalizedBy('publishToSlack')
