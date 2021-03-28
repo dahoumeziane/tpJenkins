@@ -3,13 +3,14 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh '''stage (\'build\') { 
-steps {
-sh \'gradle build\'
-}
-}'''
-      }
-    }
+        sh '''node {
 
+ 
+ sh \'gradle build\'
+
+}'''
+        }
+      }
+
+    }
   }
-}
