@@ -3,7 +3,11 @@ pipeline {
   stages {
     stage('Build') {
       steps {
-        sh 'sh \'gradle build\''
+        sh '''stage (\'build\') { 
+steps {
+sh \'gradle build\'
+}
+}'''
       }
     }
 
