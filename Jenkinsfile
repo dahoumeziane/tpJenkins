@@ -17,7 +17,7 @@ pipeline {
     stage('Code analysis') {
       steps {
         withSonarQubeEnv('Sonar') {
-          bat './gradlew sonarqube'
+          sh './gradlew sonarqube'
         }
 
         script {
