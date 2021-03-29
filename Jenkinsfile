@@ -20,7 +20,7 @@ pipeline {
       }
       steps {
         sh 'pwd'
-        sh '/opt/sonar-scanner/bin/sonar-scanner -Dproject.settings=sonar-project.properties'
+        sh '/usr/local/Cellar/sonarqube/8.6.1.40680_1/libexec/bin/macosx-universal-64/sonar.sh -Dproject.settings=sonar-project.properties'
       }
     }
 
