@@ -16,7 +16,10 @@ pipeline {
 
     stage('Code analysis') {
       steps {
-        withSonarQubeEnv 'SonarQube'
+        withSonarQubeEnv('SonarQube') {
+          sh '/usr/local/Cellar/sonarqube/8.6.1.40680_1/libexec/bin/macosx-universal-64/sonar.sh'
+        }
+
         waitForQualityGate true
       }
     }
