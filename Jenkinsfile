@@ -21,7 +21,7 @@ pipeline {
       parallel {
         stage('Code analysis') {
           post {
-            always {
+            failure {
               script {
                 timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
                 def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
