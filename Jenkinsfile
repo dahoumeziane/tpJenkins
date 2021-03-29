@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh 'gradle/gradlew.bat --version'
+        sh 'gradle/gradle.bat --version'
       }
     }
 
