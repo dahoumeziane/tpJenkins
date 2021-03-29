@@ -15,12 +15,12 @@ pipeline {
     }
 
     stage('Code analysis') {
+      environment {
+        SONAR_SCANNER_OPTS = '-Xmx2g'
+      }
       steps {
-        withSonarQubeEnv('SonarQube Scanner') {
-          sh './gradlew sonarqube'
-        }
-
-        waitForQualityGate true
+        sh 'pwd'
+        sh '/opt/sonar-scanner/bin/sonar-scanner -Dproject.settings=sonar-project.properties'
       }
     }
 
