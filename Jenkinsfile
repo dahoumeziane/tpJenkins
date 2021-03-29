@@ -3,7 +3,7 @@ pipeline {
   stages {
     stage('build') {
       steps {
-        sh './gradlew build'
+        sh './gradlew --version'
         sh './gradlew javadoc'
         archiveArtifacts 'build/libs/*.jar'
         archiveArtifacts 'build/docs/javadoc/**/*.*'
