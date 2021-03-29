@@ -8,5 +8,11 @@ pipeline {
       }
     }
 
+    stage('mail notification') {
+      steps {
+        emailext(subject: 'test', body: 'test', to: 'dahoumeziane@gmail.com', attachLog: true)
+      }
+    }
+
   }
 }
