@@ -3,7 +3,7 @@ plugins {
     id "com.github.spacialcircumstances.gradle-cucumber-reporting" version "0.1.22"
     id 'jacoco'
     id "org.sonarqube" version "3.1.1"
-//    id "net.madeng.slack" version "0.0.23"
+
 }
 
 apply plugin: 'maven-publish'
@@ -95,11 +95,3 @@ publishing {
     }
 }
 generateMatrixAPI.finalizedBy('publish')
-/*slack {
-    webhookUrl 'https://hooks.slack.com/services/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'
-    message {
-        text = "The project has been deployed"
-        channel = '#general'
-    }
-}*/
-/*publish.finalizedBy('publishToSlack')*/
