@@ -14,5 +14,14 @@ pipeline {
       }
     }
 
+    stage('Code analysis') {
+      steps {
+        withGradle() {
+          sh 'gradlew(\'sonarqube\')'
+        }
+
+      }
+    }
+
   }
 }
