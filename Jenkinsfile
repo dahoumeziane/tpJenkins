@@ -26,7 +26,7 @@ pipeline {
             }
 
             script {
-              timeout(time: 2, unit: 'HOURS') {
+              timeout(time: 1, unit: 'HOURS') {
                 def qg = waitForQualityGate()
                 if (qg.status != 'OK') {
                   error "Pipeline aborted due to quality gate failure: ${qg.status}"
@@ -43,6 +43,21 @@ pipeline {
           }
         }
 
+      }
+    }
+
+    stage('Deployement') {
+      steps {
+        withGradle() {
+          publishChecks()
+        }
+
+      }
+    }
+
+    stage('Slack notification') {
+      steps {
+        slackSend(baseUrl: 'https://hooks.slack.com/services/', message: 'The app has been deployed successfully', token: 'T01MYCYURAQ/B01S7H1FUCF/FEdoYvax66P8MHS0wmPmj842')
       }
     }
 
