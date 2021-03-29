@@ -17,7 +17,7 @@ pipeline {
     stage('Code analysis') {
       steps {
         withSonarQubeEnv('SonarQube Scanner') {
-          sh 'sonar-scanner'
+          sh './gradlew sonarqube'
         }
 
         waitForQualityGate true
