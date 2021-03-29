@@ -4,7 +4,7 @@ pipeline {
     stage('build') {
       steps {
         sh 'ls'
-        sh './gradlew --version'
+        sh './gradlew version'
       }
     }
 
@@ -15,11 +15,8 @@ pipeline {
     }
 
     stage('Code analysis') {
-      environment {
-        SONAR_SCANNER_OPTS = '-Xmx2g'
-      }
       steps {
-        withSonarQubeEnv('SonarQube Scanner') {
+        withSonarQubeEnv('SonarQube') {
           sh './gradlew sonarqube'
         }
 
