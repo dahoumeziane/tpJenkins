@@ -16,6 +16,7 @@ pipeline {
 
     stage('Code analysis') {
       steps {
+        withSonarQubeEnv 'SonarQube'
         waitForQualityGate true
       }
     }
