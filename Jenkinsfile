@@ -53,10 +53,7 @@ pipeline {
 
   stage('Deployement') {
     steps {
-      withGradle() {
-        publishChecks()
-      }
-
+      sh './gradlew publish'
     }
   }
 
