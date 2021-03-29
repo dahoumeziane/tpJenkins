@@ -4,7 +4,7 @@ pipeline {
     stage('build') {
       steps {
         sh 'ls'
-        sh './gradlew build'
+        sh './gradlew --version'
       }
     }
 
@@ -21,6 +21,7 @@ pipeline {
       steps {
         sh 'pwd'
         sh '/usr/local/Cellar/sonarqube/8.6.1.40680_1/libexec/bin/macosx-universal-64/sonar.sh start -Dproject.settings=sonar-project.properties'
+        sh './gradlew sonarqube'
       }
     }
 
