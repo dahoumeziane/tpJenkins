@@ -4,7 +4,7 @@ pipeline {
     stage('build') {
       steps {
         sh 'ls'
-        sh 'gradle/build.gradle --version'
+        sh 'gradlew.bat --version'
       }
     }
 
