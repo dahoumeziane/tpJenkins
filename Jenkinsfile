@@ -1,9 +1,8 @@
 pipeline {
   agent any
   stages {
-    stage('Build') {
+    stage('build') {
       steps {
-        echo 'text'
         sh 'gradle --version'
       }
     }
