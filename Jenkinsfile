@@ -25,33 +25,41 @@ pipeline {
               sh './gradlew sonarqube'
             }
 
-            waitForQualityGate true
+            script {
+              timeout(time: 1, unit: 'HOURS') { // Just in case something goes wrong, pipeline will be killed after a timeout
+              def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
+              if (qg.status != 'OK') {
+                error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              }
+            }
           }
+
         }
+      }
 
-        stage('test reporting') {
-          steps {
-            cucumber 'reports/example-report.json'
-          }
+      stage('test reporting') {
+        steps {
+          cucumber 'reports/example-report.json'
         }
-
       }
+
     }
-
-    stage('Deployement') {
-      steps {
-        withGradle() {
-          publishChecks()
-        }
-
-      }
-    }
-
-    stage('Slack notification') {
-      steps {
-        slackSend(baseUrl: 'https://hooks.slack.com/services/', message: 'The app has been deployed successfully', token: 'T01MYCYURAQ/B01S7H1FUCF/FEdoYvax66P8MHS0wmPmj842')
-      }
-    }
-
   }
+
+  stage('Deployement') {
+    steps {
+      withGradle() {
+        publishChecks()
+      }
+
+    }
+  }
+
+  stage('Slack notification') {
+    steps {
+      slackSend(baseUrl: 'https://hooks.slack.com/services/', message: 'The app has been deployed successfully', token: 'T01MYCYURAQ/B01S7H1FUCF/FEdoYvax66P8MHS0wmPmj842')
+    }
+  }
+
+}
 }
