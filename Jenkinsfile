@@ -27,19 +27,13 @@ pipeline {
 
             script {
               timeout(time: 1, unit: 'HOURS') {
-                def qg = waitForQualityGate(Sonar way)
+                def qg = waitForQualityGate('sonar')
                 if (qg.status != 'OK') {
                   error "Pipeline aborted due to quality gate failure: ${qg.status}"
                 }
               }
             }
 
-          }
-        }
-
-        stage('Test reporting') {
-          steps {
-            cucumber 'reports/example-report.json'
           }
         }
 
