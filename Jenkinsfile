@@ -21,9 +21,9 @@ pipeline {
         }
 
         script {
-          def qualitygate = waitForQualityGate()
-          if (qualitygate.status != "OK") {
-            error "Pipeline aborted due to quality gate coverage failure: ${qualitygate.status}"
+          def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
+          if (qg.status != 'OK') {
+            error "Pipeline aborted due to quality gate failure: ${qg.status}"
           }
         }
 
